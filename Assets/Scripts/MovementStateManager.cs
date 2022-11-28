@@ -21,6 +21,7 @@ public class MovementStateManager : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] public float walkSpeed = 5f;
     [SerializeField] public float runSpeed = 9f;
+    [SerializeField] public float inAirModifier = 0.15f; // Based off of the walk speed
     [SerializeField] public float groundDrag = 5f;
     [SerializeField] public float airDrag = 0.2f;
 

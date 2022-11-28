@@ -15,4 +15,18 @@ public class JumpState : MovementBaseState
         stateManager.rb.AddForce(Vector3.up * stateManager.jumpForce, ForceMode.Impulse);
         stateManager.StartCoroutine(stateManager.JumpToFallingStateTimer());
     }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+
+        HandleMovement();
+    }
+
+    private void HandleMovement()
+    {
+        Vector3 movementDir = stateManager.playerOrientation.forward * InputManager.movementInput.y + stateManager.playerOrientation.right * InputManager.movementInput.x;
+
+        stateManager.rb.AddForce(movementDir * (stateManager.walkSpeed * stateManager.inAirModifier) * Time.deltaTime);
+    }
 }
