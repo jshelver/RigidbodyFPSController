@@ -1,6 +1,7 @@
 using UnityEngine;
 using Helper;
 using System.Collections;
+using System;
 
 public class WallRunState : MovementBaseState
 {
@@ -8,6 +9,7 @@ public class WallRunState : MovementBaseState
     bool isOnLeftWall, isOnRightWall;
     float yVelocity;
     RaycastHit wallHit;
+    bool readyToWallJump;
 
     public WallRunState(MovementStateManager _stateManager, MovementStateMachine _stateMachine) : base(_stateManager, _stateMachine)
     {
@@ -18,14 +20,17 @@ public class WallRunState : MovementBaseState
     public override void Enter()
     {
         base.Enter();
+        readyToWallJump = false;
         yVelocity = 0;
         stateManager.rb.drag = stateManager.groundDrag;
 
         UpdateWallRunBooleans();
+        stateManager.StartCoroutine(WallRunToWallJumpCooldown());
 
         // Invoke state manager's wall run event
         MovementStateManager.OnCameraZAngleChanged.Invoke(isOnLeftWall ? -stateManager.cameraZAngle : stateManager.cameraZAngle);
     }
+
 
     public override void LogicUpdate()
     {
@@ -46,7 +51,7 @@ public class WallRunState : MovementBaseState
             return;
         }
 
-        if (InputManager.jumpInput)
+        if (InputManager.jumpInput && readyToWallJump)
         {
             // Switch to wall jump state
             stateMachine.ChangeState(stateManager.wallJumpState);
@@ -66,7 +71,7 @@ public class WallRunState : MovementBaseState
         stateManager.rb.AddForce(wallrunDirection * stateManager.wallRunSpeed, ForceMode.Acceleration);
 
         // Keep player against the wall
-        stateManager.rb.AddForce(-wallHit.normal.normalized * 10f, ForceMode.Acceleration);
+        stateManager.rb.AddForce(-wallHit.normal * 50f, ForceMode.Acceleration);
 
         LimitVelocity();
     }
@@ -104,5 +109,11 @@ public class WallRunState : MovementBaseState
         yVelocity = Mathf.Lerp(yVelocity, 0f, Time.deltaTime * 1f);
 
         stateManager.rb.velocity = new Vector3(flatVelocity.x, yVelocity, flatVelocity.z);
+    }
+
+    private IEnumerator WallRunToWallJumpCooldown()
+    {
+        yield return new WaitForSeconds(stateManager.wallRunToJumpCooldown);
+        readyToWallJump = true;
     }
 }

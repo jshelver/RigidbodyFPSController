@@ -50,7 +50,8 @@ public class MovementStateManager : MonoBehaviour
     [Space(12)]
     [SerializeField] public float wallJumpUpForce = 20f;
     [SerializeField] public float wallJumpPushOffForce = 20f;
-    [SerializeField] public float wallJumpToWallRunCooldown = 0.15f;
+    [SerializeField] public float wallRunToJumpCooldown = 0.2f;
+    [SerializeField] public float wallJumpToRunCooldown = 0.15f;
 
     void Start()
     {

@@ -77,7 +77,6 @@ public class WalkState : MovementBaseState
             // Multiply movementDir by this Quaternion so now movementDir is perpendicular to the slope's normal, instead of up
             movementDir = slopeAngleRotation * movementDir;
         }
-        Debug.DrawRay(stateManager.rb.transform.position, movementDir, Color.red, 0.5f);
         return movementDir;
     }
 

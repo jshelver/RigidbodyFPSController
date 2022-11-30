@@ -77,7 +77,7 @@ public class WallJumpState : MovementBaseState
 
     private IEnumerator WallJumpToWallRunCooldown()
     {
-        yield return new WaitForSeconds(stateManager.wallJumpToWallRunCooldown);
+        yield return new WaitForSeconds(stateManager.wallJumpToRunCooldown);
         canWallRunAgain = true;
     }
 

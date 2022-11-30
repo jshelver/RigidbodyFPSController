@@ -26505,11 +26505,11 @@ MonoBehaviour:
   jumpToFallingTimeDelay: 0.6
   wallRunSpeed: 90
   maxWallRunSpeed: 60
-  maxDistanceFromWall: 1.2
+  maxDistanceFromWall: 1.5
   minimumHeightToWallRun: 0.5
   cameraZAngle: 20
   wallJumpUpForce: 700
-  wallJumpPushOffForce: 600
+  wallJumpPushOffForce: 750
   wallJumpToWallRunCooldown: 0.1
 --- !u!43 &1344630749
 Mesh:
