@@ -989,7 +989,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-278378
+  m_Name: pb_Mesh24984
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1192,8 +1192,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerOrientation: {fileID: 681162490}
+  mainCameraTransform: {fileID: 963194228}
   mouseSensitivity: 25
   viewAngle: 85
+  wallRunningCameraSmoothTime: 0.25
 --- !u!1 &681162489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,7 +1286,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-107100
+  m_Name: pb_Mesh24918
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1906,7 +1908,7 @@ GameObject:
   - component: {fileID: 834562533}
   - component: {fileID: 834562532}
   - component: {fileID: 834562531}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2461,7 +2463,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-153348
+  m_Name: pb_Mesh24816
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -22023,7 +22025,7 @@ GameObject:
   - component: {fileID: 1206141734}
   - component: {fileID: 1206141733}
   - component: {fileID: 1206141732}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22459,27 +22461,39 @@ MonoBehaviour:
   playerOrientation: {fileID: 681162490}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768
+  wallRunnableLayers:
+    serializedVersion: 2
+    m_Bits: 768
   rb: {fileID: 0}
   feetTransform: {fileID: 713818951}
+  cameraTransform: {fileID: 963194228}
   walkSpeed: 110000
   runSpeed: 160000
   inAirModifier: 0.15
   groundDrag: 5
-  airDrag: 0.2
+  airDrag: 0.6
   springStrength: 15000
   springDamper: 800
   suspensionRestDistance: 0.8
   jumpForce: 700
   timeInAirBeforeSwitchingToFallState: 0.3
   jumpToFallingTimeDelay: 0.6
+  wallRunSpeed: 90
+  maxWallRunSpeed: 60
+  maxDistanceFromWall: 1.2
+  minimumHeightToWallRun: 0.5
+  cameraZAngle: 20
+  wallJumpUpForce: 700
+  wallJumpPushOffForce: 400
+  wallJumpToWallRunCooldown: 0.15
 --- !u!43 &1344630749
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-181038
+  m_Name: pb_Mesh24890
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -22815,7 +22829,7 @@ GameObject:
   - component: {fileID: 1407202230}
   - component: {fileID: 1407202229}
   - component: {fileID: 1407202228}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23175,7 +23189,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-228158
+  m_Name: pb_Mesh24754
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

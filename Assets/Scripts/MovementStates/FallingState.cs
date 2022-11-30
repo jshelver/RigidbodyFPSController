@@ -17,7 +17,6 @@ public class FallingState : MovementBaseState
 
     public override void LogicUpdate()
     {
-        Debug.Log("Not grounded");
         base.LogicUpdate();
         if (Suspension.CheckIfGrounded(stateManager.feetTransform, -stateManager.transform.up, stateManager.suspensionRestDistance, stateManager.groundLayer))
         {

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Helper;
 
 public class CameraController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] Transform playerOrientation;
-    Transform mainCameraTransform;
+    [SerializeField] Transform mainCameraTransform;
 
     [Header("Camera Settings")]
     [SerializeField] float mouseSensitivity = 100f;
@@ -14,11 +15,17 @@ public class CameraController : MonoBehaviour
     float mouseX, mouseY;
     float xRotation, yRotation;
 
+    [Header("Wall Running Camera Settings")]
+    [SerializeField] float wallRunningCameraSmoothTime = 0.25f;
+    float wallRunningCameraVelocity;
+    float currentCameraZAngle, targetCameraZAngle;
+
     void Start()
     {
-        mainCameraTransform = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        MovementStateManager.OnCameraZAngleChanged += HandleStateChanged;
     }
 
     void Update()
@@ -56,6 +63,17 @@ public class CameraController : MonoBehaviour
     private void UpdateCameraTransform()
     {
         mainCameraTransform.position = transform.position;
-        mainCameraTransform.rotation = Quaternion.Euler(transform.localEulerAngles.x, playerOrientation.localEulerAngles.y, 0f);
+        mainCameraTransform.rotation = Quaternion.Euler(transform.localEulerAngles.x, playerOrientation.localEulerAngles.y, UpdateCameraZAngle());
+    }
+
+    private float UpdateCameraZAngle()
+    {
+        currentCameraZAngle = Mathf.SmoothDampAngle(currentCameraZAngle, targetCameraZAngle, ref wallRunningCameraVelocity, wallRunningCameraSmoothTime);
+        return currentCameraZAngle;
+    }
+
+    private void HandleStateChanged(float _newCameraZAngle)
+    {
+        targetCameraZAngle = _newCameraZAngle;
     }
 }

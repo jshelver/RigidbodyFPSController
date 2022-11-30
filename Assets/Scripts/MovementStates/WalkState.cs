@@ -1,5 +1,6 @@
 using UnityEngine;
 using Helper;
+using System.Collections;
 
 public class WalkState : MovementBaseState
 {
@@ -41,7 +42,7 @@ public class WalkState : MovementBaseState
 
         if (!Suspension.CheckIfGrounded(stateManager.feetTransform, -stateManager.transform.up, stateManager.suspensionRestDistance, stateManager.groundLayer))
         {
-            stateManager.StartCoroutine(stateManager.GroundedToFallingStateTimer());
+            stateManager.StartCoroutine(GroundedToFallingStateTimer());
             return;
         }
     }
@@ -78,5 +79,17 @@ public class WalkState : MovementBaseState
         }
         Debug.DrawRay(stateManager.rb.transform.position, movementDir, Color.red, 0.5f);
         return movementDir;
+    }
+
+    private IEnumerator GroundedToFallingStateTimer()
+    {
+        // Wait for unknown seconds but check if grounded every frame
+        for (float i = 0; i < stateManager.timeInAirBeforeSwitchingToFallState; i += Time.deltaTime)
+        {
+            if (Helper.Suspension.CheckIfGrounded(stateManager.feetTransform, -stateManager.transform.up, stateManager.suspensionRestDistance, stateManager.groundLayer))
+                yield break;
+            yield return null;
+        }
+        stateMachine.ChangeState(stateManager.fallingState);
     }
 }

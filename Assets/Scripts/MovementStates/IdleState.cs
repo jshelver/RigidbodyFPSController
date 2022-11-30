@@ -1,5 +1,6 @@
 using UnityEngine;
 using Helper;
+using System.Collections;
 
 public class IdleState : MovementBaseState
 {
@@ -44,7 +45,7 @@ public class IdleState : MovementBaseState
 
         if (!Suspension.CheckIfGrounded(stateManager.feetTransform, -stateManager.transform.up, stateManager.suspensionRestDistance, stateManager.groundLayer))
         {
-            stateManager.StartCoroutine(stateManager.GroundedToFallingStateTimer());
+            stateManager.StartCoroutine(GroundedToFallingStateTimer());
             return;
         }
     }
@@ -52,5 +53,17 @@ public class IdleState : MovementBaseState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+    }
+
+    private IEnumerator GroundedToFallingStateTimer()
+    {
+        // Wait for unknown seconds but check if grounded every frame
+        for (float i = 0; i < stateManager.timeInAirBeforeSwitchingToFallState; i += Time.deltaTime)
+        {
+            if (Helper.Suspension.CheckIfGrounded(stateManager.feetTransform, -stateManager.transform.up, stateManager.suspensionRestDistance, stateManager.groundLayer))
+                yield break;
+            yield return null;
+        }
+        stateMachine.ChangeState(stateManager.fallingState);
     }
 }
