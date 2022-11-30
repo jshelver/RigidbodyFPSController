@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
     [Header("Wall Running Camera Settings")]
     [SerializeField] float wallRunningCameraSmoothTime = 0.25f;
     float wallRunningCameraVelocity;
-    float currentCameraZAngle, targetCameraZAngle;
+    float currentCameraZAngle, targetCameraZAngle = 0;
 
     void Start()
     {
