@@ -1,10 +1,12 @@
-using UnityEngine;
-using Helper;
 using System.Collections;
+using Helper;
+using UnityEngine;
 
-public class RunState : MovementBaseState
+public class CrouchState : MovementBaseState
 {
-    public RunState(MovementStateManager _stateManager, MovementStateMachine _stateMachine) : base(_stateManager, _stateMachine)
+    bool readyToSprint;
+
+    public CrouchState(MovementStateManager _stateManager, MovementStateMachine _stateMachine) : base(_stateManager, _stateMachine)
     {
         stateMachine = _stateMachine;
         stateManager = _stateManager;
@@ -13,30 +15,46 @@ public class RunState : MovementBaseState
     public override void Enter()
     {
         base.Enter();
+
         stateManager.rb.drag = stateManager.groundDrag;
+        stateManager.targetHeight = stateManager.crouchHeight;
+
+        readyToSprint = false;
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
-        if (InputManager.movementInput == Vector2.zero)
+        if (InputManager.jumpInput || InputManager.crouchInput)
         {
-            // Switch to idle state
-            stateMachine.ChangeState(stateManager.idleState);
-            return;
-        }
-        if (!InputManager.runInput)
-        {
+            if (InputManager.movementInput == Vector2.zero)
+            {
+                // Switch to idle state
+                stateMachine.ChangeState(stateManager.idleState);
+                return;
+            }
+
+            if (InputManager.runInput && InputManager.movementInput.y > 0f)
+            {
+                // Switch to run state
+                stateMachine.ChangeState(stateManager.runState);
+                return;
+            }
+
             // Switch to walk state
             stateMachine.ChangeState(stateManager.walkState);
             return;
         }
 
-        if (InputManager.jumpInput)
+        // If the run button has been released since entering crouch state, then we can sprint again
+        if (!InputManager.runInput) readyToSprint = true;
+
+        // Allow player to run out of crouch state
+        if (InputManager.runInput && InputManager.movementInput.y > 0f && readyToSprint)
         {
-            // Switch to jump state
-            stateMachine.ChangeState(stateManager.jumpState);
+            // Switch to run state
+            stateMachine.ChangeState(stateManager.runState);
             return;
         }
 
@@ -44,13 +62,6 @@ public class RunState : MovementBaseState
         if (!Suspension.CheckIfGrounded(stateManager.feetTransform, -stateManager.transform.up, stateManager.suspensionRestDistance, stateManager.groundLayer))
         {
             stateManager.StartCoroutine(GroundedToFallingStateTimer());
-            return;
-        }
-
-        if (InputManager.crouchInput)
-        {
-            // Switch to crouch state
-            stateMachine.ChangeState(stateManager.crouchState);
             return;
         }
     }
@@ -62,6 +73,13 @@ public class RunState : MovementBaseState
         HandleMovement();
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+
+        stateManager.targetHeight = stateManager.originalHeight;
+    }
+
     private void HandleMovement()
     {
         Vector3 movementDir = stateManager.playerOrientation.forward * InputManager.movementInput.y + stateManager.playerOrientation.right * InputManager.movementInput.x;
@@ -71,7 +89,7 @@ public class RunState : MovementBaseState
             movementDir = ConvertMovementDirectionToSlopeAngle(movementDir, hit);
         }
 
-        stateManager.rb.AddForce(movementDir.normalized * stateManager.runSpeed * Time.deltaTime);
+        stateManager.rb.AddForce(movementDir.normalized * stateManager.crouchSpeed * Time.deltaTime);
     }
 
     private Vector3 ConvertMovementDirectionToSlopeAngle(Vector3 movementDir, RaycastHit hit)

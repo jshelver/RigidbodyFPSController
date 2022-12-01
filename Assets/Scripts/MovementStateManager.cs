@@ -11,7 +11,6 @@ public class MovementStateManager : MonoBehaviour
     [SerializeField] public LayerMask wallRunnableLayers;
     [HideInInspector] public Rigidbody rb;
     [SerializeField] public Transform feetTransform;
-    [SerializeField] public Transform cameraTransform;
     public static Action<float> OnCameraZAngleChanged;
 
     [Header("State Machine / States")]
@@ -23,6 +22,7 @@ public class MovementStateManager : MonoBehaviour
     public FallingState fallingState;
     public WallRunState wallRunState;
     public WallJumpState wallJumpState;
+    public CrouchState crouchState;
 
     [Header("Movement Settings")]
     [SerializeField] public float walkSpeed = 5f;
@@ -53,6 +53,15 @@ public class MovementStateManager : MonoBehaviour
     [SerializeField] public float wallRunToJumpCooldown = 0.2f;
     [SerializeField] public float wallJumpToRunCooldown = 0.15f;
 
+    [Header("Crouch Settings")]
+    [SerializeField] public float crouchSpeed = 2f;
+    [SerializeField] public float crouchHeight = 1f;
+    public float originalHeight { get; private set; }
+    [SerializeField] public float heightChangeSmoothTime = 0.1f;
+    [HideInInspector] public float currentHeight, targetHeight, heightChangeVelocity;
+
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -65,8 +74,14 @@ public class MovementStateManager : MonoBehaviour
         fallingState = new FallingState(this, stateMachine);
         wallRunState = new WallRunState(this, stateMachine);
         wallJumpState = new WallJumpState(this, stateMachine);
+        crouchState = new CrouchState(this, stateMachine);
 
         stateMachine.Initialize(idleState);
+
+        // Store original capsule height
+        originalHeight = rb.transform.localScale.y;
+        // Initialize smoothdamped values
+        currentHeight = targetHeight = originalHeight;
     }
 
     void Update()

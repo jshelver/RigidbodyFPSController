@@ -15,6 +15,7 @@ public class InputManager : MonoBehaviour
     [HideInInspector] public static Vector2 lookInput;
     [HideInInspector] public static bool jumpInput;
     [HideInInspector] public static bool runInput;
+    [HideInInspector] public static bool crouchInput;
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class InputManager : MonoBehaviour
         lookInput = playerControls.Player.Look.ReadValue<Vector2>();
         jumpInput = playerControls.Player.Jump.triggered;
         runInput = playerControls.Player.RunToggle.IsPressed();
+        crouchInput = playerControls.Player.Crouch.triggered;
     }
 
     void OnEnable()

@@ -27,7 +27,7 @@ public class FallingState : MovementBaseState
                 return;
             }
 
-            if (InputManager.runInput)
+            if (InputManager.runInput && InputManager.movementInput.y > 0f)
             {
                 // Switch to run state
                 stateMachine.ChangeState(stateManager.runState);

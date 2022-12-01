@@ -20,7 +20,9 @@ public class MovementBaseState
 
     public virtual void LogicUpdate()
     {
-
+        // Smoothdamp player height no matter the state (allows for smooth transitions between in and out of crouch/sliding state)
+        stateManager.currentHeight = Mathf.SmoothDamp(stateManager.currentHeight, stateManager.targetHeight, ref stateManager.heightChangeVelocity, stateManager.heightChangeSmoothTime);
+        stateManager.rb.transform.localScale = new Vector3(1f, stateManager.currentHeight, 1f);
     }
 
     public virtual void PhysicsUpdate()

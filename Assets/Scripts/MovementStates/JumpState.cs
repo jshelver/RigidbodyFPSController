@@ -39,7 +39,7 @@ public class JumpState : MovementBaseState
         // Check if we are high enough off the ground to wall run
         bool isHighEnough = WallRun.CheckIfHighEnoughOffGround(stateManager.feetTransform.position, -stateManager.transform.up, stateManager.minimumHeightToWallRun + stateManager.suspensionRestDistance, stateManager.groundLayer);
 
-        if (readyToWallRun && isWallWithinDistance && isHighEnough)
+        if (readyToWallRun && isWallWithinDistance && isHighEnough && InputManager.movementInput.y > 0f && InputManager.runInput)
         {
             // Switch to wall run state
             stateMachine.ChangeState(stateManager.wallRunState);
@@ -77,7 +77,7 @@ public class JumpState : MovementBaseState
                     yield break;
                 }
 
-                if (InputManager.runInput)
+                if (InputManager.runInput && InputManager.movementInput.y > 0f)
                 {
                     // Switch to run state
                     stateMachine.ChangeState(stateManager.runState);

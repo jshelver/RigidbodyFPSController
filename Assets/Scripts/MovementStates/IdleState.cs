@@ -22,7 +22,7 @@ public class IdleState : MovementBaseState
         base.LogicUpdate();
         if (InputManager.movementInput != Vector2.zero)
         {
-            if (InputManager.runInput)
+            if (InputManager.runInput && InputManager.movementInput.y > 0f)
             {
                 // Switch to run state
                 stateMachine.ChangeState(stateManager.runState);
@@ -43,9 +43,17 @@ public class IdleState : MovementBaseState
             return;
         }
 
+        // If the player is not grounded, then start timer to switch to falling state
         if (!Suspension.CheckIfGrounded(stateManager.feetTransform, -stateManager.transform.up, stateManager.suspensionRestDistance, stateManager.groundLayer))
         {
             stateManager.StartCoroutine(GroundedToFallingStateTimer());
+            return;
+        }
+
+        if (InputManager.crouchInput)
+        {
+            // Switch to crouch state
+            stateMachine.ChangeState(stateManager.crouchState);
             return;
         }
     }

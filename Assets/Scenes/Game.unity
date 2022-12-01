@@ -26491,15 +26491,14 @@ MonoBehaviour:
     m_Bits: 768
   rb: {fileID: 0}
   feetTransform: {fileID: 713818951}
-  cameraTransform: {fileID: 963194228}
   walkSpeed: 110000
   runSpeed: 180000
   inAirModifier: 0.15
   groundDrag: 5
   airDrag: 0.6
   springStrength: 15000
-  springDamper: 800
-  suspensionRestDistance: 0.8
+  springDamper: 900
+  suspensionRestDistance: 0.6
   jumpForce: 700
   timeInAirBeforeSwitchingToFallState: 0.3
   jumpToFallingTimeDelay: 0.6
@@ -26510,7 +26509,14 @@ MonoBehaviour:
   cameraZAngle: 20
   wallJumpUpForce: 700
   wallJumpPushOffForce: 750
-  wallJumpToWallRunCooldown: 0.1
+  wallRunToJumpCooldown: 0.2
+  wallJumpToRunCooldown: 0.15
+  crouchSpeed: 55000
+  crouchHeight: 0.6
+  heightChangeSmoothTime: 0.05
+  currentHeight: 0
+  targetHeight: 0
+  heightChangeVelocity: 0
 --- !u!43 &1344630749
 Mesh:
   m_ObjectHideFlags: 0
@@ -28589,7 +28595,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh24856
+  m_Name: pb_Mesh24948
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
