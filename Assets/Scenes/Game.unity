@@ -26517,6 +26517,9 @@ MonoBehaviour:
   currentHeight: 0
   targetHeight: 0
   heightChangeVelocity: 0
+  initialSlideSpeedBurst: 7
+  slidingFriction: 10
+  downhillSlideAcceleration: 9
 --- !u!43 &1344630749
 Mesh:
   m_ObjectHideFlags: 0

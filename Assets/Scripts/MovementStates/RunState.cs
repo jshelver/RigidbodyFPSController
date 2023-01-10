@@ -26,7 +26,7 @@ public class RunState : MovementBaseState
             stateMachine.ChangeState(stateManager.idleState);
             return;
         }
-        if (!InputManager.runInput)
+        if (!InputManager.runInput || InputManager.movementInput.y < 0f)
         {
             // Switch to walk state
             stateMachine.ChangeState(stateManager.walkState);
@@ -49,8 +49,8 @@ public class RunState : MovementBaseState
 
         if (InputManager.crouchInput)
         {
-            // Switch to crouch state
-            stateMachine.ChangeState(stateManager.crouchState);
+            // Switch to sliding state
+            stateMachine.ChangeState(stateManager.slidingState);
             return;
         }
     }

@@ -23,6 +23,8 @@ public class MovementStateManager : MonoBehaviour
     public WallRunState wallRunState;
     public WallJumpState wallJumpState;
     public CrouchState crouchState;
+    public CrouchFallingState crouchFallingState;
+    public SlidingState slidingState;
 
     [Header("Movement Settings")]
     [SerializeField] public float walkSpeed = 5f;
@@ -60,6 +62,11 @@ public class MovementStateManager : MonoBehaviour
     [SerializeField] public float heightChangeSmoothTime = 0.1f;
     [HideInInspector] public float currentHeight, targetHeight, heightChangeVelocity;
 
+    [Header("Sliding Settings")]
+    [SerializeField] public float initialSlideSpeedBurst = 12f;
+    [SerializeField] public float slidingFriction = 4f;
+    [SerializeField] public float downhillSlideAcceleration = 8f;
+
 
 
     void Start()
@@ -75,6 +82,8 @@ public class MovementStateManager : MonoBehaviour
         wallRunState = new WallRunState(this, stateMachine);
         wallJumpState = new WallJumpState(this, stateMachine);
         crouchState = new CrouchState(this, stateMachine);
+        crouchFallingState = new CrouchFallingState(this, stateMachine);
+        slidingState = new SlidingState(this, stateMachine);
 
         stateMachine.Initialize(idleState);
 

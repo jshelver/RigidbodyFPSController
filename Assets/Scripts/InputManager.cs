@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
     [HideInInspector] public static bool jumpInput;
     [HideInInspector] public static bool runInput;
     [HideInInspector] public static bool crouchInput;
+    [HideInInspector] public static bool testInput;
 
     void Awake()
     {
@@ -30,6 +31,7 @@ public class InputManager : MonoBehaviour
         jumpInput = playerControls.Player.Jump.triggered;
         runInput = playerControls.Player.RunToggle.IsPressed();
         crouchInput = playerControls.Player.Crouch.triggered;
+        testInput = playerControls.Player.Test.triggered;
     }
 
     void OnEnable()

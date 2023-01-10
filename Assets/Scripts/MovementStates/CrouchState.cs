@@ -61,7 +61,7 @@ public class CrouchState : MovementBaseState
         // If the player is not grounded, then start timer to switch to falling state
         if (!Suspension.CheckIfGrounded(stateManager.feetTransform, -stateManager.transform.up, stateManager.suspensionRestDistance, stateManager.groundLayer))
         {
-            stateManager.StartCoroutine(GroundedToFallingStateTimer());
+            stateManager.StartCoroutine(GroundedToCrouchFallingStateTimer());
             return;
         }
     }
@@ -106,7 +106,7 @@ public class CrouchState : MovementBaseState
         return movementDir;
     }
 
-    private IEnumerator GroundedToFallingStateTimer()
+    private IEnumerator GroundedToCrouchFallingStateTimer()
     {
         // Wait for unknown seconds but check if grounded every frame
         for (float i = 0; i < stateManager.timeInAirBeforeSwitchingToFallState; i += Time.deltaTime)
@@ -115,6 +115,6 @@ public class CrouchState : MovementBaseState
                 yield break;
             yield return null;
         }
-        stateMachine.ChangeState(stateManager.fallingState);
+        stateMachine.ChangeState(stateManager.crouchFallingState);
     }
 }
